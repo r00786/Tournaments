@@ -1,0 +1,8 @@
+{
+  "login": "Login",
+  "tournaments": "Tournaments",
+  "sign_in": "Sign in",
+  "user_name": "User Name",
+  "password": "Password",
+  "validation": "UserName and Passwords length should be at least greater than 3"
+}
