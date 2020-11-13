@@ -3,7 +3,10 @@ import 'package:tournaments/utils/const.dart';
 
 ///Data Source for login screen
 class LoginDataSource {
-  final loginsAvailable = {"username": "rohit", "password": "rohit@123"};
+  final loginsAvailable = {
+    "9898989898": "password123",
+    "9876543210 ": "password123"
+  };
 
   ///fetching the user selected language from cache
   Future<String> getSelectedLanguage() async {
@@ -21,8 +24,8 @@ class LoginDataSource {
   ///checking for available logins and returning true or false
   ///@username is the username and @password is the password to check
   bool login(String userName, String password) {
-    return loginsAvailable["username"] == userName &&
-        loginsAvailable["password"] == password;
+    return loginsAvailable.containsKey(userName) &&
+        loginsAvailable[userName] == password;
   }
 
   ///setting login status in cache

@@ -7,6 +7,8 @@ import 'package:tournaments/screens/login/login_bloc.dart';
 import 'package:tournaments/screens/login/login_state.dart';
 import 'package:tournaments/utils/helpers.dart';
 
+import 'login_bloc.dart';
+
 ///Login widget
 class LoginWidget extends StatefulWidget {
   @override
@@ -39,95 +41,98 @@ class LoginScreenState extends State<LoginWidget> {
         body: StreamBuilder<LoginStatusState>(
             stream: _loginBloc.loginStatusObs,
             builder: (context, AsyncSnapshot<LoginStatusState> snapshot) {
-              final doLogin = snapshot.hasData && snapshot.data.loginSuccess;
-              return doLogin
-                  ? Text("Already Logged In")
-                  : Padding(
-                      padding: EdgeInsets.all(10),
-                      child: ListView(
-                        children: <Widget>[
-                          Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'tournaments'.tr(),
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 30),
-                              )),
-                          Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'sign_in'.tr(),
-                                style: TextStyle(fontSize: 20),
-                              )),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            child: TextField(
-                              controller: _textControllerUsername,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'user_name'.tr(),
-                              ),
-                            ),
+              if (snapshot?.data?.loginSuccess == true) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pushReplacementNamed(context, "/tournaments");
+                });
+                return Container();
+              }
+              return Padding(
+                  padding: EdgeInsets.all(10),
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'tournaments'.tr(),
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 30),
+                          )),
+                      Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'sign_in'.tr(),
+                            style: TextStyle(fontSize: 20),
+                          )),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: TextField(
+                          controller: _textControllerUsername,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'user_name'.tr(),
                           ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: TextField(
-                              controller: _textControllerPass,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'password'.tr(),
-                              ),
-                            ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: TextField(
+                          controller: _textControllerPass,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'password'.tr(),
                           ),
-                          Container(
-                              height: 50,
-                              margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                              //This Stream Builder is used to enable or disable
-                              //the login button
-                              child: StreamBuilder(
-                                  stream: _loginBloc.enableLogin,
-                                  builder: (context,
-                                      AsyncSnapshot<EnableLoginButtonState>
-                                          snapshot) {
-                                    final enableButton = snapshot.hasData &&
-                                        snapshot.data.enableLoginButton;
-                                    return RaisedButton(
-                                      textColor: enableButton
-                                          ? Colors.white
-                                          : Colors.white24,
-                                      color: enableButton
-                                          ? Colors.blue
-                                          : Colors.lightBlueAccent,
-                                      child: Text('login'.tr()),
-                                      onPressed: () {
-                                        if (enableButton) {
-                                          _loginBloc.doLogin(
-                                              _textControllerUsername.text,
-                                              _textControllerPass.text);
-                                        } else {
-                                          showToast("validation".tr());
-                                        }
-                                      },
-                                    );
-                                  })),
-                          //This Stream Builder is used to build the locale dropdown
-                          StreamBuilder(
-                              stream: _loginBloc.localeObs,
+                        ),
+                      ),
+                      Container(
+                          height: 50,
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          //This Stream Builder is used to enable or disable
+                          //the login button
+                          child: StreamBuilder(
+                              stream: _loginBloc.enableLogin,
                               builder: (context,
-                                  AsyncSnapshot<ChangeLocaleState> snapshot) {
-                                return snapshot.hasData
-                                    ? Center(
-                                        child: buildLocaleDropDown(
-                                            context, snapshot.data))
-                                    : Container();
-                              })
-                        ],
-                      ));
+                                  AsyncSnapshot<EnableLoginButtonState>
+                                      snapshot) {
+                                final enableButton = snapshot.hasData &&
+                                    snapshot.data.enableLoginButton;
+                                return RaisedButton(
+                                  textColor: enableButton
+                                      ? Colors.white
+                                      : Colors.white24,
+                                  color: enableButton
+                                      ? Colors.blue
+                                      : Colors.lightBlueAccent,
+                                  child: Text('login'.tr()),
+                                  onPressed: () {
+                                    if (enableButton) {
+                                      _loginBloc.doLogin(
+                                          _textControllerUsername.text,
+                                          _textControllerPass.text);
+                                    } else {
+                                      showToast("validation".tr());
+                                    }
+                                  },
+                                );
+                              })),
+                      //This Stream Builder is used to build the locale dropdown
+                      StreamBuilder(
+                          stream: _loginBloc.localeObs,
+                          builder: (context,
+                              AsyncSnapshot<ChangeLocaleState> snapshot) {
+                            return snapshot.hasData
+                                ? Center(
+                                    child: buildLocaleDropDown(
+                                        context, snapshot.data))
+                                : Container();
+                          })
+                    ],
+                  ));
             }));
   }
 
@@ -184,11 +189,13 @@ class LoginScreenState extends State<LoginWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       ///Initializing the login screen
       _loginBloc.initialize();
+
       ///adding listener to the username field
       _textControllerUsername.addListener(() {
         _loginBloc.textChangeEvent(
             _textControllerUsername.text, _textControllerPass.text);
       });
+
       ///adding listener to the password field
       _textControllerPass.addListener(() {
         _loginBloc.textChangeEvent(

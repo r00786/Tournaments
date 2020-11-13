@@ -38,19 +38,15 @@ class LoginBloc extends Bloc<BaseLoginEvent, LoginState> {
   ///All the states are been managed in this method @currentState is the parent
   ///state of all the states the states will be differentiated with their type
   ///@event are the events which will be fired by the user
-  Stream<LoginState> mapEventToState(
-      LoginState currentState, BaseLoginEvent event) async* {
+  @override
+  Stream<LoginState> mapEventToState(LoginState sate,BaseLoginEvent event) async* {
     ///if event is the Login Initialization than we will check whether the user is
     ///already logged in if so we will redirect user to next segment
     ///if user is not logged in we will get the previously selected locale if present
-    ///and show it to the user
+    ///and show it to the user on the login screen
     if (event is LoginInitialization) {
-      if (await loginDataSource.isLoggedIn()) {
-        _loginStatusPbs.sink.add(LoginStatusState(true));
-      } else {
-        _localePbs.sink.add(
-            ChangeLocaleState(await loginDataSource.getSelectedLanguage()));
-      }
+      _localePbs.sink
+          .add(ChangeLocaleState(await loginDataSource.getSelectedLanguage()));
     }
 
     ///This event will be fired when user tries to login and it will check from
