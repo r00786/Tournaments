@@ -20,10 +20,13 @@ class TournamentsBloc extends Bloc<TournamentsEvent, TournamentsState> {
   @override
   Stream<TournamentsState> mapEventToState(
       TournamentsState currentState, TournamentsEvent event) async* {
+    ///If the event is to fetch tournaments list
     if (event is TournamentListEvent) {
+      ///getting the response from the network
       BaseModel<TournamentsResponse> baseResponse =
           await _dataSource.getTournamentsList(currentState.cursor);
       TournamentsResponse response = baseResponse.data;
+      ///returning the fetched response to bloc builder
       yield TournamentsState.itemsFetchSuccess(
           currentState.items +
               BuiltList<Tournaments>.of(response.data.tournaments),
@@ -32,6 +35,7 @@ class TournamentsBloc extends Bloc<TournamentsEvent, TournamentsState> {
     }
   }
 
+  ///Method will be called when we need to fetch the tournaments list
   getTournaments() {
     dispatch(TournamentListEvent());
   }
@@ -39,7 +43,6 @@ class TournamentsBloc extends Bloc<TournamentsEvent, TournamentsState> {
   @override
   void dispose() {
     super.dispose();
-    _tournamentsListPbs.close();
   }
 
   TournamentsBloc(this._dataSource);
