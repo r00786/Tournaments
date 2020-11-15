@@ -4,5 +4,16 @@
   "sign_in": "Sign in",
   "user_name": "User Name",
   "password": "Password",
-  "validation": "UserName and Passwords length should be at least greater than 3"
+  "validation": "UserName and Passwords length should be at least greater than 3",
+  "flying_wolf": "Flying Wolf",
+  "name": "Simon Baker",
+  "score": "2250",
+  "rating": "Elo rating",
+  "34": "34",
+  "09": "09",
+  "26_percent": "26%",
+  "tournaments_played": "Tournaments \n Played",
+  "tournaments_won": "Tournaments \n Won",
+  "winning_percent": "Winning \n Percent",
+  "recommended": "Recommended For You"
 }

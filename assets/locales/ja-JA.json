@@ -4,5 +4,16 @@
   "sign_in": "サインイン",
   "user_name": "ユーザー名",
   "password": "パスワード",
-  "validation": "ユーザー名とパスワードの長さは3以上である必要があります"
+  "validation": "ユーザー名とパスワードの長さは3以上である必要があります",
+  "flying_wolf": "フライングウルフ",
+  "name": "サイモンベイカー",
+  "score": "二千二百五十",
+  "rating": "イロレーティング",
+  "34": "三十四",
+  "09": "九",
+  "26_percent": "二十六%",
+  "tournaments_played": "プレーしたトーナメント",
+  "tournaments_won": "トーナメント優勝",
+  "winning_percent": "勝率",
+  "recommended": "あなたにおすすめ"
 }

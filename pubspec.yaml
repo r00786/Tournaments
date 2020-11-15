@@ -44,6 +44,7 @@ dependencies:
   built_value: ^6.3.0
   built_collection: ^4.1.0
   fluttertoast: ^7.1.1
+  marquee_widget: ^0.8.0
 
 
 dev_dependencies:

@@ -203,4 +203,11 @@ class LoginScreenState extends State<LoginWidget> {
       });
     });
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _loginBloc.dispose();
+  }
 }
