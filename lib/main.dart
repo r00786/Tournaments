@@ -9,18 +9,23 @@ import 'package:tournaments/utils/helpers.dart';
 import 'main_bloc.dart';
 
 void main() {
+  ///initializing all the dependencies of the widget
   initKiwi();
+  ///For initializing the localization
   runApp(EasyLocalization(
       path: 'assets/locales',
       supportedLocales: [Locale('en', 'UK'), Locale('ja', 'JA')],
       child: MyApp()));
 }
 
+///Main App
 class MyApp extends StatelessWidget {
+  ///Bloc for the Main App
   final _mainBloc = kiwi.Container().resolve<MainBloc>();
 
   @override
   Widget build(BuildContext context) {
+    ///Checking is the user is logged on or not
     _mainBloc.checkForLogin();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -41,6 +46,9 @@ class MyApp extends StatelessWidget {
     );
   }
 
+  ///Building Navigation if the user is logged in then authenticated routes will
+  ///be used other wise auth pending routes @isAuthenticated is the boolean which
+  ///is the status of the user login
   Navigator _buildNavigator(bool isAuthenticated) {
     // different route tree and different default route depending on auth state
     final routes = isAuthenticated ? authenticatedRoutes : authPendingRoutes;

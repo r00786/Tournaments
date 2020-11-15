@@ -17,10 +17,12 @@ void showToast(String message) {
       fontSize: 16.0);
 }
 
+///Routes if the user is logged in
 final Map<String, WidgetBuilder> authenticatedRoutes = {
   '/': (context) => TournamentsWidget(), // default for logged In
 };
 
+///Routes if the user is not logged in
 final Map<String, WidgetBuilder> authPendingRoutes = {
   '/': (context) => LoginWidget(), // default for logged In
   '/tournaments': (context) => TournamentsWidget(),

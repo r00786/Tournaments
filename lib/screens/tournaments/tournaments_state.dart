@@ -23,6 +23,7 @@ abstract class TournamentsState
   factory TournamentsState([updates(TournamentsStateBuilder b)]) =
       _$TournamentsState;
 
+  ///getting items to show in the list
   factory TournamentsState.itemsFetchSuccess(
       BuiltList<Tournaments> list, String cursor, bool isLastPage) {
     return TournamentsState((t) => t
