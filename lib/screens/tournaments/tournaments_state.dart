@@ -4,13 +4,17 @@ import 'package:tournaments/screens/data/models/response/TournamentsResponse.dar
 
 part 'tournaments_state.g.dart';
 
+///Using Built library to add list items with ease
 abstract class TournamentsState
     implements Built<TournamentsState, TournamentsStateBuilder> {
+  ///Tournaments list
   BuiltList<Tournaments> get items;
 
+  /// bool indicating last item or not
   @nullable
   bool get isLastPage;
 
+  ///cursor to get next items list
   @nullable
   String get cursor;
 
