@@ -13,14 +13,23 @@ class _$TournamentsState extends TournamentsState {
   final bool isLastPage;
   @override
   final String cursor;
+  @override
+  final String error;
+  @override
+  final bool isError;
 
   factory _$TournamentsState(
           [void Function(TournamentsStateBuilder) updates]) =>
       (new TournamentsStateBuilder()..update(updates)).build();
 
-  _$TournamentsState._({this.items, this.isLastPage, this.cursor}) : super._() {
+  _$TournamentsState._(
+      {this.items, this.isLastPage, this.cursor, this.error, this.isError})
+      : super._() {
     if (items == null) {
       throw new BuiltValueNullFieldError('TournamentsState', 'items');
+    }
+    if (isError == null) {
+      throw new BuiltValueNullFieldError('TournamentsState', 'isError');
     }
   }
 
@@ -38,13 +47,19 @@ class _$TournamentsState extends TournamentsState {
     return other is TournamentsState &&
         items == other.items &&
         isLastPage == other.isLastPage &&
-        cursor == other.cursor;
+        cursor == other.cursor &&
+        error == other.error &&
+        isError == other.isError;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, items.hashCode), isLastPage.hashCode), cursor.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc(0, items.hashCode), isLastPage.hashCode),
+                cursor.hashCode),
+            error.hashCode),
+        isError.hashCode));
   }
 
   @override
@@ -52,7 +67,9 @@ class _$TournamentsState extends TournamentsState {
     return (newBuiltValueToStringHelper('TournamentsState')
           ..add('items', items)
           ..add('isLastPage', isLastPage)
-          ..add('cursor', cursor))
+          ..add('cursor', cursor)
+          ..add('error', error)
+          ..add('isError', isError))
         .toString();
   }
 }
@@ -74,6 +91,14 @@ class TournamentsStateBuilder
   String get cursor => _$this._cursor;
   set cursor(String cursor) => _$this._cursor = cursor;
 
+  String _error;
+  String get error => _$this._error;
+  set error(String error) => _$this._error = error;
+
+  bool _isError;
+  bool get isError => _$this._isError;
+  set isError(bool isError) => _$this._isError = isError;
+
   TournamentsStateBuilder();
 
   TournamentsStateBuilder get _$this {
@@ -81,6 +106,8 @@ class TournamentsStateBuilder
       _items = _$v.items?.toBuilder();
       _isLastPage = _$v.isLastPage;
       _cursor = _$v.cursor;
+      _error = _$v.error;
+      _isError = _$v.isError;
       _$v = null;
     }
     return this;
@@ -105,7 +132,11 @@ class TournamentsStateBuilder
     try {
       _$result = _$v ??
           new _$TournamentsState._(
-              items: items.build(), isLastPage: isLastPage, cursor: cursor);
+              items: items.build(),
+              isLastPage: isLastPage,
+              cursor: cursor,
+              error: error,
+              isError: isError);
     } catch (_) {
       String _$failedField;
       try {

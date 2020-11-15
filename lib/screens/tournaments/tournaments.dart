@@ -37,6 +37,7 @@ class TournamentsWidgetState extends State<TournamentsWidget> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     ///Getting the first chunk of tournaments list
+
     _tournamentsBloc.getTournaments();
   }
 
@@ -117,16 +118,20 @@ class TournamentsWidgetState extends State<TournamentsWidget> {
                               style:
                                   TextStyle(color: Colors.blue, fontSize: 16),
                             ),
-                            Expanded(
+                            Container(
+                              width:
+                                  (MediaQuery.of(context).size.width / 2) / 3,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  "rating".tr(),
-                                  style: TextStyle(
-                                      color: Colors.blueGrey, fontSize: 12),
+                                child: Marquee(
+                                  child: Text(
+                                    "rating".tr(),
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 9),
+                                  ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ))
@@ -263,14 +268,22 @@ class TournamentsWidgetState extends State<TournamentsWidget> {
             child: BlocBuilder(
                 bloc: _tournamentsBloc,
                 builder: (context, TournamentsState data) {
+                  _loadingResults = false;
                   if (data == null) {
+                    return Container();
+                  }
+
+                  if (data.isError) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: Text(
+                        data.error,
+                        style: TextStyle(color: Colors.red),
+                      ),
                     );
                   }
 
                   ///When this event is fired the data is been fetched and successfully received due to that we make loading results false
-                  _loadingResults = false;
+
                   return Padding(
                     padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                     child: NotificationListener<ScrollNotification>(

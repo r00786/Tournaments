@@ -39,7 +39,8 @@ class LoginBloc extends Bloc<BaseLoginEvent, LoginState> {
   ///state of all the states the states will be differentiated with their type
   ///@event are the events which will be fired by the user
   @override
-  Stream<LoginState> mapEventToState(LoginState sate,BaseLoginEvent event) async* {
+  Stream<LoginState> mapEventToState(
+      LoginState sate, BaseLoginEvent event) async* {
     ///if event is the Login Initialization than we will check whether the user is
     ///already logged in if so we will redirect user to next segment
     ///if user is not logged in we will get the previously selected locale if present
@@ -55,7 +56,11 @@ class LoginBloc extends Bloc<BaseLoginEvent, LoginState> {
     else if (event is DoLoginEvent) {
       final isLoginSuccess = LoginStatusState(
           loginDataSource.login(event.username, event.password));
+      ///Simulating setting error
+      isLoginSuccess.errorMessage =
+          isLoginSuccess.loginSuccess ? "" : "User Not Found";
       _loginStatusPbs.sink.add(isLoginSuccess);
+
       await loginDataSource.setLoginStatus(isLoginSuccess.loginSuccess);
     }
 

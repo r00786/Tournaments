@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:tournaments/screens/data/models/response/BaseModel.dart';
 import 'package:tournaments/screens/data/models/response/TournamentsResponse.dart';
 import 'package:tournaments/screens/tournaments/tournament_list_data_source.dart';
@@ -13,9 +12,10 @@ import 'package:tournaments/screens/tournaments/tournaments_state.dart';
 class TournamentsBloc extends Bloc<TournamentsEvent, TournamentsState> {
   ///Object of the data source
   final TournamentsListDataSource _dataSource;
-///Initial state when no data is present
+
+  ///Initial state when no data is present
   @override
-  TournamentsState get initialState => (TournamentsState());
+  TournamentsState get initialState => (TournamentsState.initial());
 
   @override
   Stream<TournamentsState> mapEventToState(
@@ -25,13 +25,19 @@ class TournamentsBloc extends Bloc<TournamentsEvent, TournamentsState> {
       ///getting the response from the network
       BaseModel<TournamentsResponse> baseResponse =
           await _dataSource.getTournamentsList(currentState.cursor);
-      TournamentsResponse response = baseResponse.data;
-      ///returning the fetched response to bloc builder
-      yield TournamentsState.itemsFetchSuccess(
-          currentState.items +
-              BuiltList<Tournaments>.of(response.data.tournaments),
-          response.data.cursor,
-          response.data.isLastBatch);
+      if (baseResponse.getException != null) {
+        yield TournamentsState.itemsFetchFailure(
+            isError: true, error: baseResponse.getException);
+      } else {
+        TournamentsResponse response = baseResponse.data;
+
+        ///returning the fetched response to bloc builder
+        yield TournamentsState.itemsFetchSuccess(
+            list: currentState.items +
+                BuiltList<Tournaments>.of(response.data.tournaments),
+            cursor: response.data.cursor,
+            isLastPage: response.data.isLastBatch);
+      }
     }
   }
 

@@ -24,9 +24,19 @@ class EnableLoginButtonState extends LoginState {
 ///state for the login status
 class LoginStatusState extends LoginState {
   bool _loginSuccess;
+  String _errorMessage = "";
 
   ///bool indicating user should login or not
-  LoginStatusState(this._loginSuccess);
+  LoginStatusState(bool loginSuccess, {String errorMessage}) {
+    this._loginSuccess = loginSuccess;
+    this._errorMessage = errorMessage;
+  }
 
   bool get loginSuccess => _loginSuccess;
+
+  String get errorMessage => _errorMessage;
+
+  set errorMessage(String errorMessage) {
+    this._errorMessage = errorMessage;
+  }
 }

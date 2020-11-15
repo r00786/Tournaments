@@ -46,6 +46,9 @@ class LoginScreenState extends State<LoginWidget> {
                   Navigator.pushReplacementNamed(context, "/tournaments");
                 });
                 return Container();
+              } else if (snapshot.hasData &&
+                  snapshot.data.errorMessage.isNotEmpty) {
+                showToast(snapshot?.data?.errorMessage);
               }
               return Padding(
                   padding: EdgeInsets.all(10),

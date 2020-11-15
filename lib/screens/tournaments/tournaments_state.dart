@@ -18,17 +18,36 @@ abstract class TournamentsState
   @nullable
   String get cursor;
 
+  @nullable
+  String get error;
+
+  bool get isError;
+
   TournamentsState._();
 
   factory TournamentsState([updates(TournamentsStateBuilder b)]) =
       _$TournamentsState;
 
   ///getting items to show in the list
-  factory TournamentsState.itemsFetchSuccess(
-      BuiltList<Tournaments> list, String cursor, bool isLastPage) {
+  factory TournamentsState.itemsFetchSuccess({
+    BuiltList<Tournaments> list,
+    String cursor,
+    bool isLastPage,
+  }) {
     return TournamentsState((t) => t
       ..items.replace(list)
       ..isLastPage = isLastPage
-      ..cursor = cursor);
+      ..cursor = cursor
+      ..isError = false);
+  }
+
+  factory TournamentsState.itemsFetchFailure({bool isError, String error}) {
+    return TournamentsState((t) => t
+      .._isError = isError
+      ..error = error);
+  }
+
+  factory TournamentsState.initial() {
+    return TournamentsState((t) => t..isError = false);
   }
 }
